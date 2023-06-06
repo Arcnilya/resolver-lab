@@ -13,8 +13,15 @@ dig @10.0.53.1 www.example.com +short
 sudo docker compose down
 ```
 
+You can also run the following to use host names in /etc/hosts:
+```sh
+sudo sh -c 'cat hosts >> /etc/hosts'
+sudo docker compose up -d
+dig @unbound.resolver www.example.com +short
+sudo docker compose down
+```
+
 ## Todo
-- Add config for /etc/hosts
 - Bind9:latest
 - Knot-Resolver:latest
 - PowerDNS:latest
