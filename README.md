@@ -14,6 +14,7 @@ sudo docker compose down
 ```
 
 ## Todo
+- Add config for /etc/hosts
 - Bind9:latest
 - Knot-Resolver:latest
 - PowerDNS:latest
