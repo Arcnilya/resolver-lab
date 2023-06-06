@@ -1,0 +1,18 @@
+version: "3"
+services:
+    unbound-1.17.1:
+        container_name: unbound-1.17.1
+        hostname: unbound-1171
+        image: unbound-1.17.1
+        build: unbound-1.17.1/.
+        tty: true
+        networks:
+            resolvernet:
+                ipv4_address: 10.0.53.1
+networks:
+    resolvernet:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.0.0.0/16
+                  gateway: 10.0.0.1
