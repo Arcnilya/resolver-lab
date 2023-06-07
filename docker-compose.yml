@@ -4,7 +4,7 @@ services:
         container_name: unbound-${UNBOUND_VER}
         image: unbound-${UNBOUND_VER}
         build: 
-            context: ./unbound # path to Dockerfile
+            context: ./unbound
             args:
                 - VERSION=${UNBOUND_VER}
                 - QMIN=${UNBOUND_QMIN}
@@ -12,12 +12,25 @@ services:
         networks:
             resolvernet:
                 ipv4_address: 10.0.53.1
-
+#===============================================
+    bind:
+        container_name: bind-${BIND_VER}
+        image: bind-${BIND_VER}
+        build: 
+            context: ./bind
+            args:
+                - VERSION=${BIND_VER}
+                - QMIN=${BIND_QMIN}
+        tty: true
+        networks:
+            resolvernet:
+                ipv4_address: 10.0.53.2
+#===============================================
     powerdns:
         container_name: powerdns-${POWERDNS_VER}
         image: powerdns-${POWERDNS_VER}
         build: 
-            context: ./powerdns # path to Dockerfile
+            context: ./powerdns
             args:
                 - VERSION=${POWERDNS_VER}
                 - QMIN=${POWERDNS_QMIN}
@@ -25,6 +38,20 @@ services:
         networks:
             resolvernet:
                 ipv4_address: 10.0.53.4
+#===============================================
+    egress:
+        container_name: egress
+        image: egress
+        build: 
+            context: ./unbound
+            args:
+                - VERSION=1.17.1
+                - QMIN=off
+        tty: true
+        networks:
+            resolvernet:
+                ipv4_address: 10.0.53.5
+#===============================================
 networks:
     resolvernet:
         driver: bridge

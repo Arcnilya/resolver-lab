@@ -3,3 +3,4 @@
 10.0.53.2   bind.resolver
 10.0.53.3   knot.resolver
 10.0.53.4   powerdns.resolver
+10.0.53.5   egress.resolver

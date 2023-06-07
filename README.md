@@ -18,19 +18,23 @@ sudo sh -c 'cat hosts >> /etc/hosts'
 sudo docker compose up -d
 dig @unbound.resolver www.example.com +short
 dig @powerdns.resolver www.example.com +short
+dig @bind.resolver www.example.com +short
 sudo docker compose down
 ```
 
 You can change the version as well as the QNAME Minimzation setting in the [.env](.env) file
 ```
 UNBOUND_VER=1.17.1
-UNBOUND_QMIN=relaxed # off/relaxed/strict
+UNBOUND_QMIN=relaxed # off/relaxed/strict/forward
+
+BIND_VER=9.18.15
+BIND_QMIN=relaxed # off/relaxed/strict/forward
 
 POWERDNS_VER=4.8.4
-POWERDNS_QMIN=relaxed # off/relaxed
+POWERDNS_QMIN=relaxed # off/relaxed/forward
 ```
 
 ## Todo
-- Bind9
 - Knot-Resolver
-- Recursive resolver for forwarding
+- qnamemintest name server
+- qmin signature name server
