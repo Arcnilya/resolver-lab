@@ -23,7 +23,11 @@ dig @unbound.resolver a.b.qnamemintest.net TXT +short
 sudo docker compose down
 ```
 
-You can change the version of Unbound as well as the QNAME Minimzation setting in the .env file
+You can change the version of Unbound as well as the QNAME Minimzation setting in the [.env](.env) file
+```
+UNBOUND_VER=1.17.1
+UNBOUND_QMIN=relaxed # off/relaxed/strict
+```
 
 ## Todo
 - PowerDNS
