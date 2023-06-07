@@ -26,6 +26,19 @@ services:
             resolver-lab:
                 ipv4_address: 10.0.53.2
 #===============================================
+    knot:
+        container_name: knot-${KNOT_VER}
+        image: knot-${KNOT_VER}
+        build: 
+            context: ./knot
+            args:
+                - VERSION=${KNOT_VER}
+                - QMIN=${KNOT_QMIN}
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.3
+#===============================================
     powerdns:
         container_name: powerdns-${POWERDNS_VER}
         image: powerdns-${POWERDNS_VER}
