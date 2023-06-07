@@ -12,6 +12,19 @@ services:
         networks:
             resolvernet:
                 ipv4_address: 10.0.53.1
+
+    powerdns:
+        container_name: powerdns-${POWERDNS_VER}
+        image: powerdns-${POWERDNS_VER}
+        build: 
+            context: ./powerdns # path to Dockerfile
+            args:
+                - VERSION=${POWERDNS_VER}
+                - QMIN=${POWERDNS_QMIN}
+        tty: true
+        networks:
+            resolvernet:
+                ipv4_address: 10.0.53.4
 networks:
     resolvernet:
         driver: bridge
