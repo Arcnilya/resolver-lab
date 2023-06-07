@@ -10,7 +10,7 @@ services:
                 - QMIN=${UNBOUND_QMIN}
         tty: true
         networks:
-            resolvernet:
+            resolver-lab:
                 ipv4_address: 10.0.53.1
 #===============================================
     bind:
@@ -23,7 +23,7 @@ services:
                 - QMIN=${BIND_QMIN}
         tty: true
         networks:
-            resolvernet:
+            resolver-lab:
                 ipv4_address: 10.0.53.2
 #===============================================
     powerdns:
@@ -36,7 +36,7 @@ services:
                 - QMIN=${POWERDNS_QMIN}
         tty: true
         networks:
-            resolvernet:
+            resolver-lab:
                 ipv4_address: 10.0.53.4
 #===============================================
     egress:
@@ -49,11 +49,11 @@ services:
                 - QMIN=off
         tty: true
         networks:
-            resolvernet:
+            resolver-lab:
                 ipv4_address: 10.0.53.5
 #===============================================
 networks:
-    resolvernet:
+    resolver-lab:
         driver: bridge
         ipam:
             config:
