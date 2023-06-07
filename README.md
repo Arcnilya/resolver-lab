@@ -19,6 +19,7 @@ sudo docker compose up -d
 dig @unbound.resolver www.example.com +short
 dig @powerdns.resolver www.example.com +short
 dig @bind.resolver www.example.com +short
+dig @knot.resolver www.example.com +short
 sudo docker compose down
 ```
 
@@ -30,11 +31,13 @@ UNBOUND_QMIN=relaxed # off/relaxed/strict/forward
 BIND_VER=9.18.15
 BIND_QMIN=relaxed # off/relaxed/strict/forward
 
+KNOT_VER=5.6.0
+KNOT_QMIN=relaxed # relaxed/forward
+
 POWERDNS_VER=4.8.4
 POWERDNS_QMIN=relaxed # off/relaxed/forward
 ```
 
 ## Todo
-- Knot-Resolver
 - qnamemintest name server
 - qmin signature name server
