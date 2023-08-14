@@ -25,19 +25,23 @@ sudo docker compose down
 
 You can change the version as well as the QNAME Minimzation setting in the [.env](.env) file
 ```
+UNBOUND_DFILE=default.Dockerfile # 1.8.0.Dockerfile
 UNBOUND_VER=1.17.1
 UNBOUND_QMIN=relaxed # off/relaxed/strict/forward
 
+BIND_DFILE=default.Dockerfile
 BIND_VER=9.18.15
 BIND_QMIN=relaxed # off/relaxed/strict/forward
+BIND_EXT=xz # 9.13.3 needs "gz"
 
+KNOT_DFILE=default.Dockerfile # 3.0.0.Dockerfile
 KNOT_VER=5.6.0
 KNOT_QMIN=relaxed # relaxed/forward
 
+POWERDNS_DFILE=default.Dockerfile
 POWERDNS_VER=4.8.4
 POWERDNS_QMIN=relaxed # off/relaxed/forward
 ```
 
 ## Todo
-- qnamemintest name server
-- qmin signature name server
+- EXTRA: implement a local TLD for .auth

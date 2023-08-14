@@ -4,7 +4,8 @@ services:
         container_name: unbound-${UNBOUND_VER}
         image: unbound-${UNBOUND_VER}
         build: 
-            context: ./unbound
+            context: ./unbound/
+            dockerfile: ${UNBOUND_DFILE}
             args:
                 - VERSION=${UNBOUND_VER}
                 - QMIN=${UNBOUND_QMIN}
@@ -18,9 +19,11 @@ services:
         image: bind-${BIND_VER}
         build: 
             context: ./bind
+            dockerfile: ${BIND_DFILE}
             args:
                 - VERSION=${BIND_VER}
                 - QMIN=${BIND_QMIN}
+                - EXT=${BIND_EXT}
         tty: true
         networks:
             resolver-lab:
@@ -31,6 +34,7 @@ services:
         image: knot-${KNOT_VER}
         build: 
             context: ./knot
+            dockerfile: ${KNOT_DFILE}
             args:
                 - VERSION=${KNOT_VER}
                 - QMIN=${KNOT_QMIN}
@@ -44,10 +48,12 @@ services:
         image: powerdns-${POWERDNS_VER}
         build: 
             context: ./powerdns
+            dockerfile: ${POWERDNS_DFILE}
             args:
                 - VERSION=${POWERDNS_VER}
                 - QMIN=${POWERDNS_QMIN}
         tty: true
+        stdin_open: true
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.4
@@ -57,6 +63,7 @@ services:
         image: egress
         build: 
             context: ./unbound
+            dockerfile: default.Dockerfile
             args:
                 - VERSION=1.17.1
                 - QMIN=off
@@ -64,6 +71,47 @@ services:
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.5
+#===============================================
+    fpdns:
+        container_name: fpdns
+        image: fpdns
+        build: 
+            context: ./fpdns
+            dockerfile: Dockerfile
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.6
+#===============================================
+    oldqmintest:
+        cap_add:
+            - NET_ADMIN # add two IPv4 addresses within container
+        container_name: oldqmintest
+        image: oldqmintest
+        build: 
+            context: ./qmintest
+            dockerfile: Dockerfile
+            args:
+                - VERSION=old
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.7 # and 10.0.53.8
+#===============================================
+    newqmintest:
+        cap_add:
+            - NET_ADMIN # add two IPv4 addresses within container
+        container_name: newqmintest
+        image: newqmintest
+        build: 
+            context: ./qmintest
+            dockerfile: Dockerfile
+            args:
+                - VERSION=new
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.9 # and 10.0.53.10
 #===============================================
 networks:
     resolver-lab:

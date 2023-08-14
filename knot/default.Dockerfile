@@ -9,9 +9,7 @@ RUN apt-get install -y libtool autoconf automake make pkg-config \
     liburcu-dev libgnutls28-dev libedit-dev liblmdb-dev
 WORKDIR /root/knot-dns
 RUN autoreconf -if
-RUN ./configure
-RUN make
-RUN make install
+RUN ./configure && make && make install
 RUN ldconfig
 # Install knot resolver
 WORKDIR /root
