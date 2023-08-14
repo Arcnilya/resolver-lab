@@ -7,7 +7,7 @@ import time
 import threading
 from dnslib import QTYPE, CNAME, RR, DNSRecord, NS, AAAA, TXT, A
 
-zone1 = 'newqmintest.auth.'
+zone = 'newqmin.auth.'
 ttl = 10
 fst_addr = '10.0.53.9'
 snd_addr = '10.0.53.10'
@@ -24,14 +24,14 @@ class QnameminTest(socketserver.BaseRequestHandler):
         reply.header.set_qr(True)
         reply.header.set_aa(True)
 
-        if not qname.endswith(zone1):
+        if not qname.endswith(zone):
             pass
 
         elif qtype == QTYPE.TXT:
             self.handle_txt(reply, qname)
 
         elif qnlst[0] == 'ns':
-            if qname == 'ns.' + zone1:
+            if qname == 'ns.' + zone:
                 addr = fst_addr
             else:
                 addr = snd_addr
@@ -48,7 +48,7 @@ class QnameminTest(socketserver.BaseRequestHandler):
         elif qtype != QTYPE.NS and qtype != QTYPE.A:
             pass
 
-        elif qtype == QTYPE.NS and qname == zone1:
+        elif qtype == QTYPE.NS and qname == zone:
             reply.add_answer(RR( qname, QTYPE.NS, ttl = ttl, rdata = NS('ns.' + qname)))
             reply.add_ar(RR( 'ns.' + qname, QTYPE.A, ttl = ttl, rdata = A(fst_addr)))
 
@@ -58,7 +58,7 @@ class QnameminTest(socketserver.BaseRequestHandler):
         elif qnlst[0] == '_' and self.addr == snd_addr:
             pass
 
-        elif qnlst[0] == '_' and qname[2:] != zone1:
+        elif qnlst[0] == '_' and qname[2:] != zone:
             reply.header.set_aa(False)
             qname = qname[2:]
             reply.add_auth(RR( qname, QTYPE.NS, ttl = ttl, rdata = NS('ns.' + qname)))

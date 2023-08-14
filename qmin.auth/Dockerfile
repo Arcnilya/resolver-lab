@@ -11,6 +11,6 @@ WORKDIR Python-3.8.3
 RUN ./configure --enable-optimizations
 RUN make install
 RUN python3 -m pip install dnslib
-COPY ${VERSION}.py qmintest.py
+COPY ${VERSION}.py qmin.py
 COPY ${VERSION}run.sh run.sh
 CMD ["/bin/bash", "run.sh"]

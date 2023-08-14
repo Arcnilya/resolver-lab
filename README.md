@@ -43,5 +43,3 @@ POWERDNS_VER=4.8.4
 POWERDNS_QMIN=relaxed # off/relaxed/forward
 ```
 
-## Todo
-- EXTRA: implement a local TLD for .auth

@@ -7,7 +7,7 @@ import time
 import threading
 from dnslib import QTYPE, CNAME, RR, DNSRecord, NS, AAAA, TXT, A
 
-zone1 = 'oldqmintest.auth.'
+zone = 'oldqmin.auth.'
 ttl = 10
 fst_addr = '10.0.53.7'
 snd_addr = '10.0.53.8'
@@ -25,14 +25,14 @@ class QnameminTest(socketserver.BaseRequestHandler):
         reply.header.set_qr(True)
         reply.header.set_aa(True)
 
-        if not qname.endswith(zone1):
+        if not qname.endswith(zone):
             pass
 
         elif qtype == QTYPE.TXT:
             self.handle_txt(reply, qname)
 
         elif qnlst[0] == 'ns':
-            if qname == 'ns.' + zone1:
+            if qname == 'ns.' + zone:
                 addr = fst_addr
             else:
                 addr = snd_addr
@@ -46,7 +46,7 @@ class QnameminTest(socketserver.BaseRequestHandler):
             pass
 
         # Web page for info
-        #elif qtype == QTYPE.A and (qname == zone1 or qname == 'www.' + zone1):
+        #elif qtype == QTYPE.A and (qname == zone or qname == 'www.' + zone):
         #    reply.add_answer(RR( qname, QTYPE.A, ttl = 3600, rdata = A('193.10.227.202')))
 
         elif qnlst[0] != 'ns' and qnlst[0] != 'a':

@@ -1,0 +1,16 @@
+$ORIGIN auth.
+$TTL 86400
+@               IN  SOA ns1 jonamagn.auth. (
+                2023081405 1h 15m 30d 1h)
+        
+                IN  NS  ns1.auth.
+ns1             IN  A   10.0.53.53
+
+fpdns           IN  NS  fpdns.auth.
+fpdns           IN  A   10.0.53.6
+
+oldqmin         IN  NS  oldqmin.auth.
+oldqmin         IN  A   10.0.53.7
+
+newqmin         IN  NS  newqmin.auth.
+newqmin         IN  A   10.0.53.9

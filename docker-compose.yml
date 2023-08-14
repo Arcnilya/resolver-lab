@@ -76,7 +76,7 @@ services:
         container_name: fpdns
         image: fpdns
         build: 
-            context: ./fpdns
+            context: ./fpdns.auth
             dockerfile: Dockerfile
         tty: true
         networks:
@@ -86,10 +86,10 @@ services:
     oldqmintest:
         cap_add:
             - NET_ADMIN # add two IPv4 addresses within container
-        container_name: oldqmintest
-        image: oldqmintest
+        container_name: oldqmin
+        image: oldqmin
         build: 
-            context: ./qmintest
+            context: ./qmin.auth
             dockerfile: Dockerfile
             args:
                 - VERSION=old
@@ -101,10 +101,10 @@ services:
     newqmintest:
         cap_add:
             - NET_ADMIN # add two IPv4 addresses within container
-        container_name: newqmintest
-        image: newqmintest
+        container_name: newqmin
+        image: newqmin
         build: 
-            context: ./qmintest
+            context: ./qmin.auth
             dockerfile: Dockerfile
             args:
                 - VERSION=new
@@ -112,6 +112,17 @@ services:
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.9 # and 10.0.53.10
+#===============================================
+    auth-tld:
+        container_name: auth-tld
+        image: auth-tld
+        build: 
+            context: ./ns1.auth
+            dockerfile: Dockerfile
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.53
 #===============================================
 networks:
     resolver-lab:
