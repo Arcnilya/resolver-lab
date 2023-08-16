@@ -11,4 +11,4 @@ RUN ./configure --enable-optimizations
 RUN make install
 RUN python3 -m pip install dnslib
 COPY ddnsserver.py ddnsserver.py
-CMD ["python3", "ddnsserver.py", "--port", "53"]
+CMD ["python3", "ddnsserver.py"]

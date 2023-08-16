@@ -50,6 +50,13 @@ records = {
 }
 
 
+def csv_print(data):
+    print(",".join([
+        data['nonce'],
+        data['src'],
+        data['signature']]))
+
+
 def parse_and_print(req, client_address, time):
     #print(req)
     d = dict.fromkeys(['qname', 'qtype', 'flags', 'edns', 'subnet', 'nonce'])
@@ -59,7 +66,7 @@ def parse_and_print(req, client_address, time):
     d['qtype'] = QTYPE[req.q.qtype]
     qnlst = d['qname'].split('.')
     d['signature'] = str(len(qnlst)-1) + d['qtype']
-    d['nonce'] = qnlst[-4] if len(qnlst) > 3 else None
+    d['nonce'] = qnlst[-4] if len(qnlst) > 3 else ""
 
     d['edns'] = ""
     for line in str(req).splitlines():
@@ -69,7 +76,8 @@ def parse_and_print(req, client_address, time):
             d['edns'] = d['edns'].lstrip() + ", " + line.replace("; EDNS: ", "").replace(";", ",")
         if line.startswith("; SUBNET:"):
             d['subnet'] = line.split()[2]
-    print(json.dumps(d, indent=2))
+    csv_print(d)
+    #print(json.dumps(d, indent=2))
 
 
 def dns_response(data, client_address, time):
@@ -124,7 +132,7 @@ class UDPRequestHandler(BaseRequestHandler):
 def main():
     parser = argparse.ArgumentParser(description='Start a DNS implemented in Python.')
     parser = argparse.ArgumentParser(description='Start a DNS implemented in Python. Usually DNSs use UDP on port 53.')
-    parser.add_argument('--port', default=5053, type=int, help='The port to listen on.')
+    parser.add_argument('--port', default=53, type=int, help='The port to listen on.')
     
     args = parser.parse_args()
     servers = []
