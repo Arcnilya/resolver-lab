@@ -76,7 +76,7 @@ parser.add_argument('--qname', '-q', required=True, help='Domain name to query. 
 parser.add_argument('--nonce', '-n', action='store_true', help='Wether to use a nonce')
 parser.add_argument('--prefix', '-p', help='Subdomain to query (ex. www)')
 parser.add_argument('--rr', default='A', help='Resource record to request (default A)')
-parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output to stdout')
+parser.add_argument('--save', '-s', help='File name to save data to (default None, prints to stdout)')
 
 args = parser.parse_args()
 
@@ -90,7 +90,9 @@ p = Pool(args.threads)
 
 results = p.starmap(probe, [(i,r,args) for i,r in enumerate(resolvers)])
 
-fname = f"results/one-to-many_{datetime.date.today()}.json"
-if args.verbose: print(f"Saving results to '{fname}'")
-with open(fname, "w") as fp:
-    json.dump(results, fp)
+if args.save:
+    print(f"Saving results to '{args.save}'")
+    with open(args.save, "w") as fp:
+        json.dump(results, fp)
+else:
+    print(json.dumps(results, indent=4))
