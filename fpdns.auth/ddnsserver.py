@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 """
 https://gist.github.com/pklaus/b5a7876d4d2cf7271873
 LICENSE http://www.apache.org/licenses/LICENSE-2.0
@@ -49,12 +49,15 @@ records = {
     D.jonamagn: [CNAME(D)],
 }
 
-
 def csv_print(data):
-    print(",".join([
-        data['nonce'],
-        data['src'],
-        data['signature']]))
+    if "-" in data['nonce']:
+        print(",".join([
+            data['nonce'],
+            data['src'],
+            data['signature'],
+            data['flags'],
+            data['subnet'],
+            data['edns']]))
 
 
 def parse_and_print(req, client_address, time):
@@ -68,7 +71,9 @@ def parse_and_print(req, client_address, time):
     d['signature'] = str(len(qnlst)-1) + d['qtype']
     d['nonce'] = qnlst[-4] if len(qnlst) > 3 else ""
 
+    d['flags'] = ""
     d['edns'] = ""
+    d['subnet'] = ""
     for line in str(req).splitlines():
         if line.startswith(";; flags:"):
             d['flags'] = line.replace(";; flags:","").split(";")[0].lstrip()
