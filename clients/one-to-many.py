@@ -71,7 +71,7 @@ def probe(index, resolver, args):
 
 parser = argparse.ArgumentParser(description='Client for sending 1 DNS query to multiple resolvers')
 parser.add_argument('--resolvers', '-r', required=True, help='File with IPv4 addresses to DNS resolvers.')
-parser.add_argument('--threads', '-t', default=10, help='Number of threads to use (default 10).')
+parser.add_argument('--threads', '-t', type=int, default=10, help='Number of threads to use (default 10).')
 parser.add_argument('--qname', '-q', required=True, help='Domain name to query. (ex. fpdns.se)')
 parser.add_argument('--nonce', '-n', action='store_true', help='Wether to use a nonce')
 parser.add_argument('--prefix', '-p', help='Subdomain to query (ex. www)')
