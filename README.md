@@ -43,3 +43,6 @@ POWERDNS_VER=4.8.4
 POWERDNS_QMIN=relaxed # off/relaxed/forward
 ```
 
+## TODO
+- Improve presentation with diagrams
+- Update readme and "how to use"
