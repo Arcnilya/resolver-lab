@@ -50,14 +50,14 @@ records = {
 }
 
 def csv_print(data):
-    if "-" in data['nonce']:
-        print(",".join([
-            data['nonce'],
-            data['src'],
-            data['signature'],
-            data['flags'],
-            data['subnet'],
-            data['edns']]))
+    #if "-" in data['nonce']:
+    print(",".join([
+        data['nonce'],
+        data['src'],
+        data['signature'],
+        data['flags'],
+        data['subnet'],
+        data['edns']]))
 
 
 def parse_and_print(req, client_address, time):
@@ -94,7 +94,7 @@ def dns_response(data, client_address, time):
     qtype = request.q.qtype
     qt = QTYPE[qtype]
     if qn.lower() == D or qn.lower().endswith('.' + D):
-        if qt != 'NS': # fix for knot qmin NS
+        if qt not in ['NS','AAAA','DNSKEY','TXT','SRV','SOA','MX','HTTPS','CNAME','CAA','ANY']:
             reply.add_answer(RR(rname=qname, rtype=getattr(QTYPE, qt), rclass=1, ttl=TTL, rdata=A(IP)))
         #reply.add_answer(*RR.fromZone(f"{qn} {TTL} {qt} {A(IP)}"))
 
