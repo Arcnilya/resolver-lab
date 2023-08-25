@@ -40,7 +40,7 @@ def resolve(query, resolver, rr):
 
 def build_fqdn(index, args):
     if args.nonce:
-        nonce = f"{str(index).zfill(6)}-nonce"
+        nonce = f"{str(index+args.offset).zfill(8)}-nonce"
         qname = f"{nonce}.{args.qname}"
     else:
         nonce = ""
@@ -77,6 +77,7 @@ parser.add_argument('--nonce', '-n', action='store_true', help='Wether to use a 
 parser.add_argument('--prefix', '-p', help='Subdomain to query (ex. www)')
 parser.add_argument('--rr', default='A', help='Resource record to request (default A)')
 parser.add_argument('--save', '-s', help='File name to save data to (default None, prints to stdout)')
+parser.add_argument('--offset', '-o', type=int, default=0, help='Offset to use in the nonce')
 
 args = parser.parse_args()
 
