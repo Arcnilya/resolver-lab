@@ -8,7 +8,7 @@ services:
             dockerfile: ${UNBOUND_DFILE}
             args:
                 - VERSION=${UNBOUND_VER}
-                - QMIN=${UNBOUND_QMIN}
+                - CONF=${UNBOUND_CONF}
         tty: true
         networks:
             resolver-lab:
@@ -22,7 +22,7 @@ services:
             dockerfile: ${BIND_DFILE}
             args:
                 - VERSION=${BIND_VER}
-                - QMIN=${BIND_QMIN}
+                - CONF=${BIND_CONF}
                 - EXT=${BIND_EXT}
         tty: true
         networks:
@@ -37,7 +37,7 @@ services:
             dockerfile: ${KNOT_DFILE}
             args:
                 - VERSION=${KNOT_VER}
-                - QMIN=${KNOT_QMIN}
+                - CONF=${KNOT_CONF}
         tty: true
         networks:
             resolver-lab:
@@ -51,7 +51,7 @@ services:
             dockerfile: ${POWERDNS_DFILE}
             args:
                 - VERSION=${POWERDNS_VER}
-                - QMIN=${POWERDNS_QMIN}
+                - CONF=${POWERDNS_CONF}
         tty: true
         stdin_open: true
         networks:
@@ -66,7 +66,7 @@ services:
             dockerfile: default.Dockerfile
             args:
                 - VERSION=1.17.1
-                - QMIN=off
+                - CONF=off
         tty: true
         networks:
             resolver-lab:

@@ -17,7 +17,7 @@ RUN ./configure
 RUN make
 RUN make install
 RUN useradd unbound
-ARG QMIN=relaxed
-COPY ${QMIN}.conf unbound.conf
+ARG CONF=relaxed
+COPY ${CONF}.conf unbound.conf
 COPY root.hints /var/lib/unbound/root.hints
 CMD unbound -d -v -c unbound.conf

@@ -19,6 +19,6 @@ WORKDIR /root/knot-resolver-${VERSION}
 RUN meson setup build_dir --prefix=/tmp/kr --default-library=static
 RUN ninja -C build_dir
 RUN ninja install -C build_dir
-ARG QMIN=relaxed
-COPY ${QMIN}.conf knot.conf
+ARG CONF=relaxed
+COPY ${CONF}.conf knot.conf
 CMD /tmp/kr/sbin/kresd -nv -c knot.conf

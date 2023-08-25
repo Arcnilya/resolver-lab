@@ -13,7 +13,7 @@ WORKDIR /root/pdns-recursor-${VERSION}
 RUN ./configure && make -k -d && make install
 RUN mkdir config
 RUN mkdir /var/run/pdns-recursor
-ARG QMIN=relaxed
-COPY ${QMIN}.conf config/recursor.conf 
+ARG CONF=relaxed
+COPY ${CONF}.conf config/recursor.conf 
 COPY disable-dnssec.lua disable-dnssec.lua
 CMD pdns_recursor --config-dir=config

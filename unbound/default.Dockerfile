@@ -10,6 +10,6 @@ RUN tar -xzf unbound-${VERSION}.tar.gz
 WORKDIR /root/unbound-${VERSION}
 RUN ./configure && make && make install
 RUN useradd unbound
-ARG QMIN=relaxed
-COPY ${QMIN}.conf unbound.conf
+ARG CONF=relaxed
+COPY ${CONF}.conf unbound.conf
 CMD unbound -d -v -c unbound.conf

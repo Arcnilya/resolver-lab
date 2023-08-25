@@ -12,7 +12,7 @@ RUN chown 1000:1000 bind-${VERSION}
 RUN chmod 777 bind-${VERSION}
 WORKDIR /root/bind-${VERSION}
 RUN ./configure --disable-doh && make && make install
-ARG QMIN=relaxed
-COPY ${QMIN}.conf named.conf
+ARG CONF=relaxed
+COPY ${CONF}.conf named.conf
 RUN ldconfig
 CMD named -g -c named.conf
