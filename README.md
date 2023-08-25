@@ -18,6 +18,7 @@ to build a distinct open-source DNS resolver:
 - [Bind](https://www.isc.org/download/#BIND) (/bind)
 - [Knot](https://www.knot-resolver.cz/) (/knot)
 - [PowerDNS](https://www.powerdns.com/powerdns-recursor) (/powerdns)
+
 By containerizing these resolvers, you can easily spin up stable instances for
 testing. The directories also contain configuration files ending in .conf which
 can be referenced in the .env file.
@@ -34,6 +35,7 @@ incorporates three name servers under the ".auth" zone:
 - fpdns.auth (/fpdns.auth)
 - oldqmin.auth (/qmin.auth)
 - newqmin.auth (/qmin.auth)
+
 These name servers are designed to interact with the resolvers and log queries
 for analysis. This data serves as a valuable resource for assessing resolver
 behaviour and potential vulnerabilities.
