@@ -1,5 +1,5 @@
 FROM ubuntu
-ARG VERSION=latest
+ARG VERSION=1.8.0
 WORKDIR /root
 RUN apt update && apt upgrade -y
 RUN apt install -y build-essential libexpat1-dev bison flex wget 
@@ -17,7 +17,7 @@ RUN ./configure
 RUN make
 RUN make install
 RUN useradd unbound
-ARG CONF=relaxed
+ARG CONF=default
 COPY ${CONF}.conf unbound.conf
 COPY root.hints /var/lib/unbound/root.hints
 CMD unbound -d -v -c unbound.conf

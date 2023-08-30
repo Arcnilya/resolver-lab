@@ -26,7 +26,7 @@ RUN make install PREFIX="/usr/local"
 #RUN meson setup build_dir --prefix=/tmp/kr --default-library=static
 #RUN ninja -C build_dir
 #RUN ninja install -C build_dir
-ARG CONF=relaxed
+ARG CONF=3.0.0
 COPY ${CONF}.conf knot.conf
 CMD kresd -c knot.conf
 #-v -c knot.conf

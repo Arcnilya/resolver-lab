@@ -1,6 +1,5 @@
 FROM ubuntu
-ARG VERSION=4.4.0
-#4.8.4
+ARG VERSION=4.8.4
 WORKDIR /root
 RUN apt update && apt upgrade -y
 RUN apt-get install -y libboost-filesystem-dev libboost-serialization-dev \
@@ -13,7 +12,7 @@ WORKDIR /root/pdns-recursor-${VERSION}
 RUN ./configure && make -k -d && make install
 RUN mkdir config
 RUN mkdir /var/run/pdns-recursor
-ARG CONF=relaxed
+ARG CONF=default
 COPY ${CONF}.conf config/recursor.conf 
 COPY disable-dnssec.lua disable-dnssec.lua
 CMD pdns_recursor --config-dir=config
