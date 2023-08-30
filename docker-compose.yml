@@ -66,7 +66,7 @@ services:
             dockerfile: default.Dockerfile
             args:
                 - VERSION=1.17.1
-                - CONF=off
+                - CONF=qmin-off
         tty: true
         networks:
             resolver-lab:
@@ -83,7 +83,7 @@ services:
             resolver-lab:
                 ipv4_address: 10.0.53.6
 #===============================================
-    oldqmintest:
+    oldqmin:
         cap_add:
             - NET_ADMIN # add two IPv4 addresses within container
         container_name: oldqmin
@@ -98,7 +98,7 @@ services:
             resolver-lab:
                 ipv4_address: 10.0.53.7 # and 10.0.53.8
 #===============================================
-    newqmintest:
+    newqmin:
         cap_add:
             - NET_ADMIN # add two IPv4 addresses within container
         container_name: newqmin

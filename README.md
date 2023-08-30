@@ -1,14 +1,17 @@
 # Resolver Lab
 
-The Resolver Lab is a comprehensive toolkit designed to facilitate the testing,
-monitoring, and analysis of DNS resolvers within a local and controlled environment. 
-This repository contains Dockerfiles for building open-source DNS resolvers
-in isolated containers, enabling seamless testing and comparison of various
-resolver versions and configurations. In addition to the resolver containers, 
-the lab includes containers with authoritative name servers under a custom
-top-level domain. This allows for in-depth traffic analysis and the
-development of novel monitoring techniques at diverse vantage points within the
-DNS ecosystem.
+The Resolver Lab is a comprehensive platform that offers a controlled testing
+environment where various DNS resolver implementations can be thoroughly
+assessed and compared. At its core, the lab features dockerized resolver
+containers for testing with variables for changing versions and configurations.
+The Resolver Lab includes an authoritative name server for a custom top-level
+domain, a suite of authoritative second-level domain name servers, and a
+versatile client script for structured query testing. These components
+collectively facilitate the analysis of resolver behavior under diverse
+scenarios in an isolated environment entirely under the user's control.
+Interacting with the resolvers and observing queries at the authoritative name
+servers reveal valuable insights into resolver behavior and potential
+vulnerabilities.
 
 ## Components
 ### Resolver Containers
@@ -46,7 +49,8 @@ a defined list of resolvers. The lab currently have the following scripts:
 - one-to-many.py, takes a domain name and a list of resolvers
 
 ## How to run
-Make sure that you have [docker/-compose](https://docs.docker.com/engine/install/) as well as [dig](https://linux.die.net/man/1/dig) or equivalent.
+Make sure that you have [docker/-compose](https://docs.docker.com/engine/install/) 
+as well as [dig](https://linux.die.net/man/1/dig) or equivalent.
 ```sh
 sudo docker compose up -d
 dig @10.0.53.1 www.example.com +short
@@ -66,23 +70,26 @@ sudo docker compose down
 ```
 
 ### Testing with Different Versions
-The Resolver Lab offers the flexibility to test different versions and configurations of the resolvers. By modifying the contents of the environment file (.env), you can build the resolver container to run specific versions and configurations, facilitating direct comparisons between implementations.
+The Resolver Lab offers the flexibility to test different versions and
+configurations of the resolvers. By modifying the contents of the environment
+file (.env), you can build the resolver container to run specific versions and
+configurations, facilitating direct comparisons between implementations.
 
 ```
-UNBOUND_DFILE=default.Dockerfile # 1.8.0.Dockerfile
-UNBOUND_VER=1.17.1
-UNBOUND_CONF=relaxed # off/relaxed/strict/forward
+UNBOUND_DFILE=default.Dockerfile #1.8.0.Dockerfile 
+UNBOUND_VER=1.17.1 #1.8.0
+UNBOUND_CONF=default # default/forward/qmin-off/-relaxed/-strict
 
 BIND_DFILE=default.Dockerfile
-BIND_VER=9.18.15
-BIND_CONF=relaxed # off/relaxed/strict/forward
-BIND_EXT=xz # 9.13.3 needs "gz"
+BIND_VER=9.18.15 #9.13.3
+BIND_CONF=default # default/forward/qmin-off/-relaxed/-strict
+BIND_EXT=xz #gz
 
-KNOT_DFILE=default.Dockerfile # 3.0.0.Dockerfile
-KNOT_VER=5.6.0
-KNOT_CONF=relaxed # relaxed/forward
+KNOT_DFILE=default.Dockerfile #3.0.0.Dockerfile
+KNOT_VER=5.6.0 #3.0.0
+KNOT_CONF=relaxed # default/forward/3.0.0
 
 POWERDNS_DFILE=default.Dockerfile
-POWERDNS_VER=4.8.4
-POWERDNS_CONF=relaxed # off/relaxed/forward
+POWERDNS_VER=4.8.4 #4.4.0
+POWERDNS_CONF=forward # default/forward/qmin-off/-relaxed
 ```
