@@ -2,7 +2,7 @@ version: "3"
 services:
     unbound:
         container_name: unbound-${UNBOUND_VER}
-        image: unbound-${UNBOUND_VER}
+        image: unbound-${UNBOUND_VER}:resolver-lab
         build: 
             context: ./unbound/
             dockerfile: ${UNBOUND_DFILE}
@@ -16,7 +16,7 @@ services:
 #===============================================
     bind:
         container_name: bind-${BIND_VER}
-        image: bind-${BIND_VER}
+        image: bind-${BIND_VER}:resolver-lab
         build: 
             context: ./bind
             dockerfile: ${BIND_DFILE}
@@ -31,7 +31,7 @@ services:
 #===============================================
     knot:
         container_name: knot-${KNOT_VER}
-        image: knot-${KNOT_VER}
+        image: knot-${KNOT_VER}:resolver-lab
         build: 
             context: ./knot
             dockerfile: ${KNOT_DFILE}
@@ -45,7 +45,7 @@ services:
 #===============================================
     powerdns:
         container_name: powerdns-${POWERDNS_VER}
-        image: powerdns-${POWERDNS_VER}
+        image: powerdns-${POWERDNS_VER}:resolver-lab
         build: 
             context: ./powerdns
             dockerfile: ${POWERDNS_DFILE}
@@ -60,7 +60,7 @@ services:
 #===============================================
     egress:
         container_name: egress
-        image: egress
+        image: egress:resolver-lab
         build: 
             context: ./unbound
             dockerfile: default.Dockerfile
@@ -74,7 +74,7 @@ services:
 #===============================================
     fpdns:
         container_name: fpdns
-        image: fpdns
+        image: fpdns:resolver-lab
         build: 
             context: ./fpdns.auth
             dockerfile: Dockerfile
@@ -87,7 +87,7 @@ services:
         cap_add:
             - NET_ADMIN # add two IPv4 addresses within container
         container_name: oldqmin
-        image: oldqmin
+        image: oldqmin:resolver-lab
         build: 
             context: ./qmin.auth
             dockerfile: Dockerfile
@@ -102,7 +102,7 @@ services:
         cap_add:
             - NET_ADMIN # add two IPv4 addresses within container
         container_name: newqmin
-        image: newqmin
+        image: newqmin:resolver-lab
         build: 
             context: ./qmin.auth
             dockerfile: Dockerfile
@@ -115,7 +115,7 @@ services:
 #===============================================
     auth-tld:
         container_name: auth-tld
-        image: auth-tld
+        image: auth-tld:resolver-lab
         build: 
             context: ./ns1.auth
             dockerfile: Dockerfile
