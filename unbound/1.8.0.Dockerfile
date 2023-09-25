@@ -19,5 +19,4 @@ RUN make install
 RUN useradd unbound
 ARG CONF=default
 COPY ${CONF}.conf unbound.conf
-COPY root.hints /var/lib/unbound/root.hints
 CMD unbound -d -v -c unbound.conf

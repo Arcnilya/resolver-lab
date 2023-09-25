@@ -20,6 +20,9 @@ except ImportError:
     sys.exit(2)
 
 
+mutex = threading.Lock()
+
+
 class DomainName(str):
     def __getattr__(self, item):
         return DomainName(item + '.' + self)
@@ -51,13 +54,15 @@ records = {
 
 def csv_print(data):
     #if "-" in data['nonce']:
-    print(",".join([
-        data['nonce'],
-        data['src'],
-        data['signature'],
-        data['flags'],
-        data['subnet'],
-        data['edns']]))
+    with mutex:
+        print(",".join([
+            data['time'],
+            data['nonce'],
+            data['src'],
+            data['signature'],
+            data['flags'],
+            data['edns'],
+            data['subnet']]))
 
 
 def parse_and_print(req, client_address, time):
@@ -78,7 +83,7 @@ def parse_and_print(req, client_address, time):
         if line.startswith(";; flags:"):
             d['flags'] = line.replace(";; flags:","").split(";")[0].lstrip()
         if line.startswith("; EDNS: "):
-            d['edns'] = d['edns'].lstrip() + ", " + line.replace("; EDNS: ", "").replace(";", ",")
+            d['edns'] = d['edns'].lstrip() + " " + line.replace("; EDNS: ", "").replace(',', ';')
         if line.startswith("; SUBNET:"):
             d['subnet'] = line.split()[2]
     csv_print(d)
@@ -94,6 +99,7 @@ def dns_response(data, client_address, time):
     qtype = request.q.qtype
     qt = QTYPE[qtype]
     if qn.lower() == D or qn.lower().endswith('.' + D):
+        #if qt != 'NS': # fix for knot qmin NS
         if qt not in ['NS','AAAA','DNSKEY','TXT','SRV','SOA','MX','HTTPS','CNAME','CAA','ANY']:
             reply.add_answer(RR(rname=qname, rtype=getattr(QTYPE, qt), rclass=1, ttl=TTL, rdata=A(IP)))
         #reply.add_answer(*RR.fromZone(f"{qn} {TTL} {qt} {A(IP)}"))
@@ -152,7 +158,7 @@ def main():
         while 1:
             time.sleep(1)
             sys.stderr.flush()
-            sys.stdout.flush()
+            #sys.stdout.flush()
 
     except KeyboardInterrupt:
         pass
