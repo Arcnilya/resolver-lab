@@ -5,5 +5,5 @@
 10.0.53.4   powerdns.resolver
 10.0.53.5   egress.resolver
 10.0.53.6   fpdns.auth
-10.0.53.7   oldqmintest.auth
-10.0.53.9   newqmintest.auth
+10.0.53.7   oldqmin.auth
+10.0.53.9   newqmin.auth

@@ -1,4 +1,0 @@
-15:05:18.559203,NOERROR,00000000-nonce,10.0.53.1,qr rd ra,TXT HOORAY - QNAME minimisation is enabled on your resolver :)! ('10.0.53.1', 53622)
-15:05:18.559170,NOERROR,00000001-nonce,10.0.53.2,qr rd ra,TXT NO - QNAME minimisation is NOT enabled on your resolver :( ('10.0.53.2', 34190)
-15:05:18.558547,NOERROR,00000002-nonce,10.0.53.3,qr rd ra,TXT HOORAY - QNAME minimisation is enabled on your resolver :)! ('10.0.53.3', 44524)
-15:05:18.556544,NOERROR,00000003-nonce,10.0.53.4,qr rd ra,TXT NO - QNAME minimisation is NOT enabled on your resolver :( ('10.0.53.4', 58472)
