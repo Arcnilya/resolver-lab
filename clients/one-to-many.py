@@ -32,7 +32,7 @@ def read_file(fname):
 
 def resolve(query, resolver, rr):
     try:
-        dig_result = subprocess.check_output(['dig', f'@{resolver}', query, rr]).decode('UTF-8')
+        dig_result = subprocess.check_output(['dig', f'@{resolver}', query, rr, '+tries=1']).decode('UTF-8')
         return parse_dns(dig_result, query)
     except subprocess.CalledProcessError as e:
         return {'status':"TIMEOUT",'flags':"",'edns':"",'answer':""}
