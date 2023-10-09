@@ -40,7 +40,7 @@ def resolve(query, resolver, rr):
 
 def build_fqdn(index, args):
     if args.nonce:
-        nonce = f"{str(index+args.offset).zfill(8)}-nonce"
+        nonce = f"{str(index+args.offset).zfill(8)}-{args.nonce}"
         qname = f"{nonce}.{args.qname}"
     else:
         nonce = ""
@@ -65,7 +65,7 @@ def probe(index, resolver, args):
     d = resolve(FQDN, resolver, args.rr)
     d['resolver'] = resolver
     d['nonce'] = nonce
-    d['time'] = datetime.datetime.now().strftime("%H:%M:%S.%f")
+    d['time'] = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")
     # status,flags,edns,answer,resolver,nonce,time
     return d
 
@@ -73,7 +73,7 @@ parser = argparse.ArgumentParser(description='Client for sending 1 DNS query to 
 parser.add_argument('--resolvers', '-r', required=True, help='File with IPv4 addresses to DNS resolvers.')
 parser.add_argument('--threads', '-t', type=int, default=10, help='Number of threads to use (default 10).')
 parser.add_argument('--qname', '-q', required=True, help='Domain name to query. (ex. fpdns.se)')
-parser.add_argument('--nonce', '-n', action='store_true', help='Wether to use a nonce')
+parser.add_argument('--nonce', '-n', default="", help='Which nonce to use')
 parser.add_argument('--prefix', '-p', help='Subdomain to query (ex. www)')
 parser.add_argument('--rr', default='A', help='Resource record to request (default A)')
 parser.add_argument('--save', '-s', help='File name to save data to (default None, prints to stdout)')
