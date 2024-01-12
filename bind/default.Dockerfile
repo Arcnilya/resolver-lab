@@ -1,7 +1,8 @@
 FROM ubuntu
 ARG VERSION=9.18.15
 WORKDIR /root
-RUN apt update && apt upgrade -y
+RUN apt update
+RUN apt upgrade -y
 #RUN apt install -y software-properties-common
 #RUN rm -rf /var/lib/apt/lists/*
 #RUN add-apt-repository ppa:deadsnakes/ppa

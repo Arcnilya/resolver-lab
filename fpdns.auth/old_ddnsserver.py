@@ -52,8 +52,8 @@ records = {
     D.jonamagn: [CNAME(D)],
 }
 
-
 def csv_print(data):
+    #if "-" in data['nonce']:
     with mutex:
         print(",".join([
             data['time'],
@@ -66,6 +66,7 @@ def csv_print(data):
 
 
 def parse_and_print(req, client_address, time):
+    #print(req)
     d = dict.fromkeys(['qname', 'qtype', 'flags', 'edns', 'subnet', 'nonce'])
     d['time'] = time
     d['src'] = client_address[0]
@@ -86,6 +87,7 @@ def parse_and_print(req, client_address, time):
         if line.startswith("; SUBNET:"):
             d['subnet'] = line.split()[2]
     csv_print(d)
+    #print(json.dumps(d, indent=2))
 
 
 def dns_response(data, client_address, time):
@@ -96,11 +98,15 @@ def dns_response(data, client_address, time):
     qn = str(qname)
     qtype = request.q.qtype
     qt = QTYPE[qtype]
+
+    if len(qn.split('.')) > 4 and len(qn.split('.')) < 24: # create loss
+        return None
+
     if qn.lower() == D or qn.lower().endswith('.' + D):
-        if qt == "A":
+        #if qt != 'NS': # fix for knot qmin NS
+        if qt not in ['NS','AAAA','DNSKEY','TXT','SRV','SOA','MX','HTTPS','CNAME','CAA','ANY']:
             reply.add_answer(RR(rname=qname, rtype=getattr(QTYPE, qt), rclass=1, ttl=TTL, rdata=A(IP)))
-        elif qt == "NS":
-            reply.add_answer(RR(rname=qname, rtype=getattr(QTYPE, qt), rclass=1, ttl=TTL, rdata=NS(D.ns1)))
+        #reply.add_answer(*RR.fromZone(f"{qn} {TTL} {qt} {A(IP)}"))
 
         for rdata in ns_records:
             reply.add_ar(RR(rname=D, rtype=QTYPE.NS, rclass=1, ttl=TTL, rdata=rdata))
@@ -135,7 +141,10 @@ class UDPRequestHandler(BaseRequestHandler):
         return self.request[0] #.strip()
 
     def send_data(self, data):
-        return self.request[1].sendto(data, self.client_address)
+        if data:
+            return self.request[1].sendto(data, self.client_address)
+        else:
+            return None
 
 
 def main():
@@ -156,6 +165,7 @@ def main():
         while 1:
             time.sleep(1)
             sys.stderr.flush()
+            #sys.stdout.flush()
 
     except KeyboardInterrupt:
         pass
