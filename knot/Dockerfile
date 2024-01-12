@@ -1,5 +1,6 @@
 FROM ubuntu
 ARG VERSION=5.6.0
+ENV CONFIG=default
 WORKDIR /root
 RUN apt update && apt upgrade -y
 RUN apt install -y build-essential libssl-dev meson libuv1-dev luajit libluajit-5.1-dev wget git
@@ -16,9 +17,9 @@ WORKDIR /root
 RUN wget https://secure.nic.cz/files/knot-resolver/knot-resolver-${VERSION}.tar.xz
 RUN tar -xf knot-resolver-${VERSION}.tar.xz
 WORKDIR /root/knot-resolver-${VERSION}
-RUN meson setup build_dir --prefix=/tmp/kr --default-library=static
+RUN meson setup build_dir --prefix=/usr/local --default-library=static
 RUN ninja -C build_dir
 RUN ninja install -C build_dir
-ARG CONF=default
-COPY ${CONF}.conf knot.conf
-CMD /tmp/kr/sbin/kresd -nv -c knot.conf
+COPY configs configs
+COPY bootup.sh bootup.sh
+CMD ./bootup.sh

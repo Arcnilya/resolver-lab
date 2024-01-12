@@ -1,0 +1,99 @@
+version: "3"
+services:
+    unbound:
+        image: unbound-${UNBOUND_VER}:resolver-lab
+        container_name: unbound-${UNBOUND_VER}
+        environment:
+            CONFIG: ${UNBOUND_CONF}
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.1
+#===============================================
+    bind:
+        image: bind-${BIND_VER}:resolver-lab
+        container_name: bind-${BIND_VER}
+        environment:
+            CONFIG: ${BIND_CONF}
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.2
+#===============================================
+    knot:
+        image: knot-${KNOT_VER}:resolver-lab
+        container_name: knot-${KNOT_VER}
+        environment:
+            CONFIG: ${KNOT_CONF}
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.3
+#===============================================
+    powerdns:
+        image: powerdns-${POWERDNS_VER}:resolver-lab
+        container_name: powerdns-${POWERDNS_VER}
+        environment:
+            CONFIG: ${POWERDNS_CONF}
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.4
+#===============================================
+    egress:
+        container_name: egress
+        image: egress:resolver-lab
+        environment:
+            CONFIG: qmin-off
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.5
+#===============================================
+    fpdns:
+        container_name: fpdns.auth
+        image: fpdns.auth:resolver-lab
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.6
+#===============================================
+    oldqmin:
+        cap_add:
+            - NET_ADMIN # add two IPv4 addresses within container
+        container_name: oldqmin.auth
+        image: oldqmin.auth:resolver-lab
+        environment:
+            VERSION: old
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.7 # and 10.0.53.8
+#===============================================
+    newqmin:
+        cap_add:
+            - NET_ADMIN # add two IPv4 addresses within container
+        container_name: newqmin.auth
+        image: newqmin.auth:resolver-lab
+        environment:
+            VERSION: new
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.9 # and 10.0.53.10
+#===============================================
+    auth:
+        container_name: ns1.auth
+        image: ns1.auth:resolver-lab
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.53
+#===============================================
+networks:
+    resolver-lab:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.0.0.0/16
+                  gateway: 10.0.0.1

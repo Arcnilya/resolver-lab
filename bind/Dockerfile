@@ -1,5 +1,6 @@
 FROM ubuntu
 ARG VERSION=9.18.15
+ENV CONFIG=default
 WORKDIR /root
 RUN apt update
 RUN apt upgrade -y
@@ -16,7 +17,7 @@ RUN chmod 777 bind-${VERSION}
 WORKDIR /root/bind-${VERSION}
 RUN pip3 install ply
 RUN ./configure --disable-doh && make && make install
-ARG CONF=default
-COPY ${CONF}.conf named.conf
+COPY configs configs
+COPY bootup.sh bootup.sh
 RUN ldconfig
-CMD named -g -c named.conf
+CMD ./bootup.sh

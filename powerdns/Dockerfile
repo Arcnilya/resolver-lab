@@ -1,5 +1,6 @@
 FROM ubuntu
 ARG VERSION=4.8.4
+ENV CONFIG=default
 WORKDIR /root
 RUN apt update && apt upgrade -y
 RUN apt-get install -y libboost-filesystem-dev libboost-serialization-dev \
@@ -10,9 +11,8 @@ RUN wget https://downloads.powerdns.com/releases/pdns-recursor-${VERSION}.tar.bz
 RUN tar -xf pdns-recursor-${VERSION}.tar.bz2
 WORKDIR /root/pdns-recursor-${VERSION}
 RUN ./configure && make -k -d && make install
-RUN mkdir config
 RUN mkdir /var/run/pdns-recursor
-ARG CONF=default
-COPY ${CONF}.conf config/recursor.conf 
+COPY configs configs
 COPY disable-dnssec.lua disable-dnssec.lua
-CMD pdns_recursor --config-dir=config
+COPY bootup.sh bootup.sh
+CMD ./bootup.sh

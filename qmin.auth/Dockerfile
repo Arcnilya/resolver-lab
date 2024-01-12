@@ -1,5 +1,5 @@
 FROM ubuntu
-ARG VERSION=old
+ENV VERSION=old
 WORKDIR /root
 RUN apt update && apt upgrade -y
 RUN apt install wget tar iproute2 -y
@@ -11,6 +11,7 @@ WORKDIR Python-3.8.3
 RUN ./configure --enable-optimizations
 RUN make install
 RUN python3 -m pip install dnslib
-COPY ${VERSION}.py qmin.py
-COPY ${VERSION}run.sh run.sh
-CMD ["/bin/bash", "run.sh"]
+COPY new new
+COPY old old
+COPY bootup.sh bootup.sh
+CMD ./bootup.sh

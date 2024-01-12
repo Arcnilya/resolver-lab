@@ -1,5 +1,6 @@
 FROM ubuntu
 ARG VERSION=1.8.0
+ENV CONFIG=default
 WORKDIR /root
 RUN apt update && apt upgrade -y
 RUN apt install -y build-essential libexpat1-dev bison flex wget 
@@ -17,6 +18,6 @@ RUN ./configure
 RUN make
 RUN make install
 RUN useradd unbound
-ARG CONF=default
-COPY ${CONF}.conf unbound.conf
-CMD unbound -d -v -c unbound.conf
+COPY configs configs
+COPY bootup.sh bootup.sh
+CMD ./bootup.sh
