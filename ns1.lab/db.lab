@@ -1,0 +1,16 @@
+$ORIGIN lab.
+$TTL 86400
+@               IN  SOA ns1 jonamagn.lab. (
+                2023081405 1h 15m 30d 1h)
+        
+                IN  NS  ns1.lab.
+ns1             IN  A   10.0.53.53
+
+fpdns           IN  NS  fpdns.lab.
+fpdns           IN  A   10.0.53.6
+
+oldqmin         IN  NS  oldqmin.lab.
+oldqmin         IN  A   10.0.53.7
+
+newqmin         IN  NS  newqmin.lab.
+newqmin         IN  A   10.0.53.9

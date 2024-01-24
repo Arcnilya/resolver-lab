@@ -27,7 +27,7 @@ class DomainName(str):
     def __getattr__(self, item):
         return DomainName(item + '.' + self)
 
-this_zone = 'fpdns.auth'
+this_zone = 'fpdns.lab'
 D = DomainName(this_zone + '.')
 IP = '10.0.53.6'
 TTL = 60 * 5

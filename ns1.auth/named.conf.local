@@ -1,4 +1,0 @@
-zone "auth" {
-    type master;
-    file "/etc/bind/db.auth";
-};

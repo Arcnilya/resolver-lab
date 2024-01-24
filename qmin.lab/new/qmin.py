@@ -7,7 +7,7 @@ import time
 import threading
 from dnslib import QTYPE, CNAME, RR, DNSRecord, NS, AAAA, TXT, A
 
-zone = 'newqmin.auth.'
+zone = 'newqmin.lab.'
 ttl = 10
 fst_addr = '10.0.53.9'
 snd_addr = '10.0.53.10'

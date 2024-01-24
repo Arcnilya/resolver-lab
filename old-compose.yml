@@ -1,41 +1,59 @@
 version: "3"
 services:
     unbound:
-        image: unbound-${UNBOUND_VER}:resolver-lab
         container_name: unbound-${UNBOUND_VER}
-        environment:
-            CONFIG: ${UNBOUND_CONF}
+        image: unbound-${UNBOUND_VER}:resolver-lab
+        build: 
+            context: ./unbound/
+            dockerfile: ${UNBOUND_DFILE}
+            args:
+                - VERSION=${UNBOUND_VER}
+                - CONF=${UNBOUND_CONF}
         tty: true
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.1
 #===============================================
     bind:
-        image: bind-${BIND_VER}:resolver-lab
         container_name: bind-${BIND_VER}
-        environment:
-            CONFIG: ${BIND_CONF}
+        image: bind-${BIND_VER}:resolver-lab
+        build: 
+            context: ./bind
+            dockerfile: ${BIND_DFILE}
+            args:
+                - VERSION=${BIND_VER}
+                - CONF=${BIND_CONF}
+                - EXT=${BIND_EXT}
         tty: true
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.2
 #===============================================
     knot:
-        image: knot-${KNOT_VER}:resolver-lab
         container_name: knot-${KNOT_VER}
-        environment:
-            CONFIG: ${KNOT_CONF}
+        image: knot-${KNOT_VER}:resolver-lab
+        build: 
+            context: ./knot
+            dockerfile: ${KNOT_DFILE}
+            args:
+                - VERSION=${KNOT_VER}
+                - CONF=${KNOT_CONF}
         tty: true
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.3
 #===============================================
     powerdns:
-        image: powerdns-${POWERDNS_VER}:resolver-lab
         container_name: powerdns-${POWERDNS_VER}
-        environment:
-            CONFIG: ${POWERDNS_CONF}
+        image: powerdns-${POWERDNS_VER}:resolver-lab
+        build: 
+            context: ./powerdns
+            dockerfile: ${POWERDNS_DFILE}
+            args:
+                - VERSION=${POWERDNS_VER}
+                - CONF=${POWERDNS_CONF}
         tty: true
+        stdin_open: true
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.4
@@ -43,16 +61,24 @@ services:
     egress:
         container_name: egress
         image: egress:resolver-lab
-        environment:
-            CONFIG: qmin-off
+        build: 
+            context: ./unbound
+            dockerfile: default.Dockerfile
+            #no_cache: true
+            args:
+                - VERSION=1.17.1
+                - CONF=qmin-off
         tty: true
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.5
 #===============================================
     fpdns:
-        container_name: fpdns.auth
-        image: fpdns.auth:resolver-lab
+        container_name: fpdns
+        image: fpdns:resolver-lab
+        build: 
+            context: ./fpdns.auth
+            dockerfile: Dockerfile
         tty: true
         networks:
             resolver-lab:
@@ -61,10 +87,13 @@ services:
     oldqmin:
         cap_add:
             - NET_ADMIN # add two IPv4 addresses within container
-        container_name: oldqmin.auth
-        image: oldqmin.auth:resolver-lab
-        environment:
-            VERSION: old
+        container_name: oldqmin
+        image: oldqmin:resolver-lab
+        build: 
+            context: ./qmin.auth
+            dockerfile: Dockerfile
+            args:
+                - VERSION=old
         tty: true
         networks:
             resolver-lab:
@@ -73,18 +102,24 @@ services:
     newqmin:
         cap_add:
             - NET_ADMIN # add two IPv4 addresses within container
-        container_name: newqmin.auth
-        image: newqmin.auth:resolver-lab
-        environment:
-            VERSION: new
+        container_name: newqmin
+        image: newqmin:resolver-lab
+        build: 
+            context: ./qmin.auth
+            dockerfile: Dockerfile
+            args:
+                - VERSION=new
         tty: true
         networks:
             resolver-lab:
                 ipv4_address: 10.0.53.9 # and 10.0.53.10
 #===============================================
-    auth:
-        container_name: ns1.auth
-        image: ns1.auth:resolver-lab
+    auth-tld:
+        container_name: auth-tld
+        image: auth-tld:resolver-lab
+        build: 
+            context: ./ns1.auth
+            dockerfile: Dockerfile
         tty: true
         networks:
             resolver-lab:

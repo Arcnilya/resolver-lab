@@ -2,9 +2,14 @@ FROM ubuntu
 ARG VERSION=1.17.1
 ENV CONFIG=default
 WORKDIR /root
-RUN apt update && apt upgrade -y
-RUN apt install -y build-essential libssl-dev libexpat1-dev bison wget flex
-RUN wget https://nlnetlabs.nl/downloads/unbound/unbound-${VERSION}.tar.gz
+RUN apt update && apt upgrade -y && apt install -y \
+    build-essential \
+    libssl-dev \
+    libexpat1-dev \
+    bison \
+    flex \
+    && rm -rf /var/lib/apt/lists/*
+ADD https://nlnetlabs.nl/downloads/unbound/unbound-${VERSION}.tar.gz ./
 RUN tar -xzf unbound-${VERSION}.tar.gz
 WORKDIR /root/unbound-${VERSION}
 RUN ./configure && make && make install
