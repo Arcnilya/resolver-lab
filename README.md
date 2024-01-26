@@ -1,5 +1,18 @@
 # Resolver Lab
 
+- Unbound 1.8.0, 1.17.1
+- Bind 9.18.15, 9.14.0
+- Knot 5.6.0, 3.0.0
+- PowerDNS 4.8.4, 4.4.0
+
+## Debug tools
+curl, vim, net-tools, tmux, dnsutils, iproute2
+
+## Authoritative Name Server Images
+- ns1.lab
+- qmin.lab
+- fpdns.lab
+
 The Resolver Lab is a comprehensive platform that offers a controlled testing
 environment where various DNS resolver implementations can be thoroughly
 assessed and compared. At its core, the lab features dockerized resolver
