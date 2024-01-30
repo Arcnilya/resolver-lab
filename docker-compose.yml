@@ -82,7 +82,15 @@ services:
             resolver-lab:
                 ipv4_address: 10.0.53.9 # and 10.0.53.10
 #===============================================
-    auth:
+    polar:
+        image: resolver-lab/polar.lab
+        container_name: polar.lab
+        tty: true
+        networks:
+            resolver-lab:
+                ipv4_address: 10.0.53.11
+#===============================================
+    ns1:
         image: resolver-lab/ns1.lab
         container_name: ns1.lab
         tty: true

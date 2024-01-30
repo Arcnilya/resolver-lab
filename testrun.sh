@@ -19,9 +19,10 @@ ping_func unbound.resolver
 ping_func bind.resolver
 ping_func knot.resolver
 ping_func powerdns.resolver
-ping_func fpdns.auth
-ping_func oldqmin.auth
-ping_func newqmin.auth
+ping_func fpdns.lab
+ping_func oldqmin.lab
+ping_func newqmin.lab
+ping_func polar.lab
 echo ""
 # dig
 dname="kau.se"
@@ -37,14 +38,20 @@ dig_func "bind"     "$prefix.bind.$dname" "A"
 dig_func "knot"     "$prefix.knot.$dname" "A"
 dig_func "powerdns" "$prefix.powerdns.$dname" "A"
 echo ""
-dname="oldqmin.auth"
+dname="oldqmin.lab"
 dig_func "unbound" "a.unbound.$dname" "TXT"
 dig_func "bind" "a.bind.$dname" "TXT"
 dig_func "knot" "a.knot.$dname" "TXT"
 dig_func "powerdns" "a.powerdns.$dname" "TXT"
 echo ""
-dname="newqmin.auth"
+dname="newqmin.lab"
 dig_func "unbound" "a.unbound.$dname" "TXT"
 dig_func "bind" "a.bind.$dname" "TXT"
 dig_func "knot" "a.knot.$dname" "TXT"
 dig_func "powerdns" "a.powerdns.$dname" "TXT"
+echo ""
+dname="polar.lab"
+dig_func "unbound" "alwaysunbound.$dname" "A"
+dig_func "bind" "alwaysbind.$dname" "A"
+dig_func "knot" "alwaysknot.$dname" "A"
+dig_func "powerdns" "alwayspowerdns.$dname" "A"

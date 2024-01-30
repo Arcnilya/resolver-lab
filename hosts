@@ -4,6 +4,8 @@
 10.0.53.3   knot.resolver
 10.0.53.4   powerdns.resolver
 10.0.53.5   egress.resolver
-10.0.53.6   fpdns.auth
-10.0.53.7   oldqmin.auth
-10.0.53.9   newqmin.auth
+10.0.53.53  ns1.lab
+10.0.53.6   fpdns.lab
+10.0.53.7   oldqmin.lab
+10.0.53.9   newqmin.lab
+10.0.53.11  polar.lab

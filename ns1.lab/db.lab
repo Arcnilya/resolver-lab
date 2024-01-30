@@ -1,7 +1,7 @@
 $ORIGIN lab.
 $TTL 86400
 @               IN  SOA ns1 jonamagn.lab. (
-                2023081405 1h 15m 30d 1h)
+                2024013001 1h 15m 30d 1h)
         
                 IN  NS  ns1.lab.
 ns1             IN  A   10.0.53.53
@@ -14,3 +14,6 @@ oldqmin         IN  A   10.0.53.7
 
 newqmin         IN  NS  newqmin.lab.
 newqmin         IN  A   10.0.53.9
+
+polar           IN  NS  polar.lab.
+polar           IN  A   10.0.53.11
