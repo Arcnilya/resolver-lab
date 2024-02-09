@@ -15,7 +15,7 @@ vulnerabilities.
 
 
 ## Components
-### Docker Compose File
+### Docker compose file
 The docker-compose.yml specifies a network and 9 services: 4 test resolvers, 1
 auxilliary resolver, 1 authoritative TLD name server, and 3 authoritative SLD
 name servers. The services specify images built beforehand. The 4 test
@@ -23,7 +23,7 @@ resolvers have their version and configuration file parameterized, set in a
 separate .env file.
 
 
-### Resolver Containers
+### Resolver containers
 The heart of the Resolver Lab is its collection of Dockerfiles, each tailored
 to build a distinct open-source DNS resolver:
 - [Unbound](https://nlnetlabs.nl/projects/unbound/about/) (/unbound) [10.0.53.1]
@@ -41,7 +41,7 @@ By containerizing these resolvers, you can easily spin up stable instances for
 testing. Each test resolver has a "configs" directory, containing configuration 
 files which can be set in *run-time* using the .env file.
 
-### Authoritative Name Server Containers
+### Authoritative name server containers
 The lab includes an authoritative TLD name server configured for the
 pseudo-top-level *.lab* zone. This name server facilitates testing scenarios by
 responding to queries for domains under the .lab zone.  Each of the four
@@ -49,16 +49,17 @@ resolvers have been configured to use this local authoritative TLD name server
 when resolving a .lab domain.  This is particularly useful for observing
 resolver behavior when interacting with authoritative sources.  To
 comprehensively analyze the behavior of recursive resolvers, the Resolver Lab
-incorporates three authoritative SLD name servers in the .lab zone:
+incorporates various authoritative SLD name servers in the .lab zone:
 - fpdns.lab (/fpdns.lab)
 - oldqmin.lab (/qmin.lab)
 - newqmin.lab (/qmin.lab)
+- polar.lab (/polar.lab)
 
 These authoritative name servers are designed to interact with the resolvers
 and log queries for analysis. This data serves as a valuable resource for
 assessing resolver behaviour and potential vulnerabilities.
 
-### Client Scripts
+### Client scripts
 The client scripts bundled with the lab allows structured queries to be sent to 
 a defined list of resolvers. The lab currently have the following scripts:
 - one-to-many.py, takes a domain name and a list of resolvers
@@ -84,7 +85,7 @@ dig @knot.resolver www.example.com +short
 docker compose down
 ```
 
-### Testing with Different Versions
+### Testing with different versions
 The Resolver Lab offers the flexibility to test different versions and
 configurations of the resolvers.  By building new images ([resolver]/build.sh
 [version]) and modifying the contents of the environment file (.env), you can
@@ -114,3 +115,13 @@ When building new images, these are some nice debugging tools to include:
 - tmux
 - dnsutils
 - iproute2
+
+## PolarDNS queries
+Here are a couple of queries for testing the resolvers against polar.lab:
+- always.polar.lab (always returns an A RR)
+- alwaysfoo.polar.lab (queries can be made unique)
+- always.ttl10000.polar.lab (custom ttl can be set)
+- always.anrr3.polar.lab (number of answers can be set)
+- always.newid.polar.lab (a new transaction id can be set)
+- manytxt.2.10.polar.lab TXT (multiple TXT RRs can be sent)
+- loop.polar.lab (CNAME loops can be created)

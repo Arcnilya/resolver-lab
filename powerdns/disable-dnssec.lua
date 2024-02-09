@@ -1,1 +1,1 @@
-addNTA("auth", "No DNSSEC for local/private nameservers")
+addNTA("lab", "No DNSSEC for local/private nameservers")
