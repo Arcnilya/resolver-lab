@@ -7,7 +7,8 @@ resolvers=(
     powerdns.resolver # 10.0.53.4
 )
 
-done=(
+polar=(
+    "always.polar.lab A"
     "always.ttl69.polar.lab A"
     "always.newid.polar.lab A"
     "manytxt.2.30.polar.lab TXT"
@@ -18,12 +19,18 @@ done=(
     "customtype.1.polar.lab NS"
 )
 
-queries=(
-    "always.polar.lab A"
+# https://coredns.io/plugins/chaos/
+chaos=(
+    "CHAOS version.bind TXT"
+    "CHAOS authors.bind TXT"
+    "CHAOS hostname.bind TXT"
+    "CHAOS version.server TXT"
+    "CHAOS id.server TXT"
 )
 
-for query in "${queries[@]}"; do
+for query in "${chaos[@]}"; do
     for resolver in "${resolvers[@]}"; do
-        dig @$resolver $query | grep "status\|polar"; echo ""
+        #dig @$resolver $query | grep "status\|polar"; echo ""
+        dig @$resolver $query | grep "status\|TXT"; echo ""
     done
 done

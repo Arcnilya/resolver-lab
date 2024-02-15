@@ -1,0 +1,4 @@
+unbound.resolver
+bind.resolver
+knot.resolver
+powerdns.resolver

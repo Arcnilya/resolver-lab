@@ -1,0 +1,5 @@
+always.polar.lab A
+always.ttl69.polar.lab A
+always.newid.polar.lab A
+manytxt.2.30.polar.lab TXT
+loop.polar.lab A
