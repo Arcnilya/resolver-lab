@@ -8,7 +8,9 @@ RUN apt update && apt upgrade -y && apt install -y \
     libexpat1-dev \
     bison \
     flex \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+RUN update-ca-certificates
 ADD https://nlnetlabs.nl/downloads/unbound/unbound-${VERSION}.tar.gz ./
 RUN tar -xzf unbound-${VERSION}.tar.gz
 WORKDIR /root/unbound-${VERSION}

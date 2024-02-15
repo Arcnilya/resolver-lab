@@ -116,12 +116,3 @@ When building new images, these are some nice debugging tools to include:
 - dnsutils
 - iproute2
 
-## PolarDNS queries
-Here are a couple of queries for testing the resolvers against polar.lab:
-- always.polar.lab (always returns an A RR)
-- alwaysfoo.polar.lab (queries can be made unique)
-- always.ttl10000.polar.lab (custom ttl can be set)
-- always.anrr3.polar.lab (number of answers can be set)
-- always.newid.polar.lab (a new transaction id can be set)
-- manytxt.2.10.polar.lab TXT (multiple TXT RRs can be sent)
-- loop.polar.lab (CNAME loops can be created)
