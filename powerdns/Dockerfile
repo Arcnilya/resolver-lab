@@ -16,6 +16,7 @@ RUN apt update && apt upgrade -y && apt-get install -y \
     pkg-config \
     libluajit-5.1-dev \
     libboost-dev \
+    cargo \
     && rm -rf /var/lib/apt/lists/*
 ADD https://downloads.powerdns.com/releases/pdns-recursor-${VERSION}.tar.bz2 ./
 RUN tar -xf pdns-recursor-${VERSION}.tar.bz2
