@@ -1,6 +1,6 @@
-FROM ubuntu
-ARG VERSION=9.18.15
-ARG EXT=xz
+FROM debian:buster
+ARG VERSION=9.14.0
+ARG EXT=gz
 ENV CONFIG=default
 WORKDIR /root
 RUN apt update && apt upgrade -y
@@ -25,7 +25,7 @@ RUN chmod 777 bind-${VERSION}
 
 WORKDIR /root/bind-${VERSION}
 # Todo: enable doh
-RUN ./configure --disable-doh --without-python 
+RUN ./configure --disable-doh #--without-python 
 RUN make 
 RUN make install
 RUN ldconfig

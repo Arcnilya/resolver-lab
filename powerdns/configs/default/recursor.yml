@@ -1,0 +1,20 @@
+incoming:
+  listen:
+    - "0.0.0.0"
+  allow_from:
+    - "10.0.0.0/8"
+
+outgoing:
+  dont_query:
+    - "192.168.0.0/16"
+
+recursor:
+  #qname_minimization: true # relaxed only
+  #qname_max_minimize_count: 10
+  #qname_minimize_one_label: 4
+  lua_config_file: disable-dnssec.lua
+  forward_zones:
+    - zone: lab
+      recurse: false
+      forwarders:
+        - "10.0.53.53"

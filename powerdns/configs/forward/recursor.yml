@@ -1,0 +1,17 @@
+incoming:
+  listen:
+    - "0.0.0.0"
+  allow_from:
+    - "10.0.0.0/8"
+
+outgoing:
+  dont_query:
+    - "192.168.0.0/16"
+
+recursor:
+  qname_minimization: true
+  lua_config_file: disable-dnssec.lua
+  forward_zones_recurse:
+    - zone: "."
+      forwarders:
+        - "10.0.53.5"

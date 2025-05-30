@@ -1,5 +1,5 @@
-FROM ubuntu
-ARG VERSION=4.8.4
+FROM debian:buster
+ARG VERSION=4.3.0
 ENV CONFIG=default
 WORKDIR /root
 RUN apt update && apt upgrade -y && apt-get install -y \
@@ -26,6 +26,6 @@ RUN ./configure && make -k -d && make install
 RUN mkdir /var/run/pdns-recursor
 COPY disable-dnssec.lua disable-dnssec.lua
 COPY configs configs
-RUN find configs -type f -name "*.conf" -delete
+RUN find configs -type f -name "*.yml" -delete
 COPY bootup.sh bootup.sh
 CMD ./bootup.sh

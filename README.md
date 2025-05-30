@@ -1,5 +1,15 @@
 # Resolver Lab
 
+- [x] Get powerdns working: updated config file style to yml
+- [x] Update resolver version structure
+- [x] Move build script to root (./build.sh unbound 1.23.0, etc.)
+- [x] Unparameterize versions and configs
+- [x] Testing
+- [ ] Rewrite README
+
+
+# Old README
+
 The Resolver Lab is a comprehensive platform that offers a controlled testing
 environment where various DNS resolver implementations can be thoroughly
 assessed and compared. At its core, the lab features dockerized resolver

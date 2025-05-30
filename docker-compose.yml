@@ -1,107 +1,131 @@
-version: "3"
 services:
-    unbound:
-        image: resolver-lab/unbound-${UNBOUND_VER}
-        container_name: unbound-${UNBOUND_VER}
-        environment:
-            CONFIG: ${UNBOUND_CONF}
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.1
+  unbound:
+    image: resolver-lab/unbound:1.23.0
+    build:
+      context: unbound
+      args:
+        VERSION: 1.23.0
+    container_name: unbound
+    environment:
+      CONFIG: default
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.1
 #===============================================
-    bind:
-        image: resolver-lab/bind-${BIND_VER}
-        container_name: bind-${BIND_VER}
-        environment:
-            CONFIG: ${BIND_CONF}
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.2
+  bind:
+    image: resolver-lab/bind:9.20.9
+    build:
+      context: bind
+      args:
+        VERSION: 9.20.9
+    container_name: bind
+    environment:
+      CONFIG: default
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.2
 #===============================================
-    knot:
-        image: resolver-lab/knot-${KNOT_VER}
-        container_name: knot-${KNOT_VER}
-        environment:
-            CONFIG: ${KNOT_CONF}
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.3
+  knot:
+    image: resolver-lab/knot:5.7.5
+    build:
+      context: knot
+      args:
+        VERSION: 5.7.5
+    container_name: knot
+    environment:
+      CONFIG: default
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.3
 #===============================================
-    powerdns:
-        image: resolver-lab/powerdns-${POWERDNS_VER}
-        container_name: powerdns-${POWERDNS_VER}
-        environment:
-            CONFIG: ${POWERDNS_CONF}
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.4
+  powerdns:
+    image: resolver-lab/powerdns:5.2.2
+    build:
+      context: powerdns
+      args:
+        VERSION: 5.2.2
+    container_name: powerdns
+    environment:
+      CONFIG: default
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.4
 #===============================================
-    egress:
-        image: resolver-lab/unbound-1.17.1
-        container_name: egress
-        environment:
-            CONFIG: qmin-off
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.5
+  egress:
+    image: resolver-lab/unbound:1.23.0
+    build:
+      context: unbound
+      args:
+        VERSION: 1.23.0
+    container_name: egress
+    environment:
+      CONFIG: qmin-off
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.5
 #===============================================
-    fpdns:
-        image: resolver-lab/fpdns.lab
-        container_name: fpdns.lab
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.6
+  fpdns:
+    image: resolver-lab/fpdns.lab
+    build: fpdns.lab
+    container_name: fpdns.lab
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.6
 #===============================================
-    oldqmin:
-        cap_add:
-            - NET_ADMIN # add two IPv4 addresses within container
-        image: resolver-lab/qmin.lab
-        container_name: oldqmin.lab
-        environment:
-            VERSION: old
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.7 # and 10.0.53.8
+  oldqmin:
+    image: resolver-lab/qmin.lab
+    build: qmin.lab
+    container_name: oldqmin.lab
+    environment:
+      VERSION: old
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.7 # and 10.0.53.8
+    cap_add:
+      - NET_ADMIN # add two IPv4 addresses within container
 #===============================================
-    newqmin:
-        cap_add:
-            - NET_ADMIN # add two IPv4 addresses within container
-        image: resolver-lab/qmin.lab
-        container_name: newqmin.lab
-        environment:
-            VERSION: new
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.9 # and 10.0.53.10
+  newqmin:
+    image: resolver-lab/qmin.lab
+    build: qmin.lab
+    container_name: newqmin.lab
+    environment:
+      VERSION: new
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.9 # and 10.0.53.10
+    cap_add:
+      - NET_ADMIN # add two IPv4 addresses within container
 #===============================================
-    polar:
-        image: resolver-lab/polar.lab
-        container_name: polar.lab
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.11
+  polar:
+    image: resolver-lab/polar.lab
+    build: polar.lab
+    container_name: polar.lab
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.11
 #===============================================
-    ns1:
-        image: resolver-lab/ns1.lab
-        container_name: ns1.lab
-        tty: true
-        networks:
-            resolver-lab:
-                ipv4_address: 10.0.53.53
+  ns1:
+    image: resolver-lab/ns1.lab
+    build: ns1.lab
+    container_name: ns1.lab
+    tty: true
+    networks:
+      resolver-lab:
+        ipv4_address: 10.0.53.53
 #===============================================
 networks:
-    resolver-lab:
-        driver: bridge
-        ipam:
-            config:
-                - subnet: 10.0.0.0/16
-                  gateway: 10.0.0.1
+  resolver-lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
+          gateway: 10.0.0.1
